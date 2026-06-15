@@ -1,6 +1,8 @@
 package router
 
 import (
+	"database/sql"
+
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -9,12 +11,12 @@ import (
 	"github.com/vickyaruldoss/ims/service"
 )
 
-func SetupRouter() *gin.Engine {
+func SetupRouter(db *sql.DB) *gin.Engine {
 	r := gin.Default()
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-	memberRepo := repository.NewInMemoryMemberRepository()
+	memberRepo := repository.NewPostgresRepository(db)
 	memberSvc := service.NewMemberService(memberRepo)
 	memberCtrl := controller.NewMemberController(memberSvc)
 
