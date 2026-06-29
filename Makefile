@@ -11,7 +11,9 @@ export
 DB_USER     ?= ims_user
 DB_NAME     ?= ims_db
 
-.PHONY: all build run test clean tidy lint swagger db-start db-stop migrate help
+PGADMIN_PORT ?= 5050
+
+.PHONY: all build run test clean tidy lint swagger db-start db-stop migrate pgadmin pgadmin-stop help
 
 all: tidy swagger build
 
@@ -57,6 +59,15 @@ db-stop:
 ## migrate: run Liquibase migrations via Docker Compose
 migrate:
 	docker-compose --profile migrate run --rm liquibase
+
+## pgadmin: start pgAdmin4 container via Docker Compose
+pgadmin:
+	docker-compose --profile pgadmin up -d pgadmin
+	@echo "pgAdmin4 available at http://localhost:$(PGADMIN_PORT)"
+
+## pgadmin-stop: stop and remove pgAdmin4 container
+pgadmin-stop:
+	docker-compose --profile pgadmin rm -sf pgadmin
 
 ## help: list available targets
 help:
