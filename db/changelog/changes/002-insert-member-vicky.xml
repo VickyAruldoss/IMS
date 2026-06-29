@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="002a" author="vicky">
+        <comment>Allow updated_at to be null</comment>
+        <dropNotNullConstraint tableName="members"
+                               columnName="updated_at"
+                               columnDataType="TIMESTAMP WITH TIME ZONE"/>
+    </changeSet>
+
+    <changeSet id="002b" author="vicky">
+        <comment>Seed member 'vicky'</comment>
+        <insert tableName="members">
+            <column name="id" value="e11c850a-d1ea-4bc6-9fc3-21c6ca67a281"/>
+            <column name="name" value="vicky"/>
+            <column name="email" value="test@mail.com"/>
+            <column name="role" value="dev"/>
+            <column name="created_at" valueComputed="NOW()"/>
+            <!-- updated_at omitted on purpose so it is inserted as NULL -->
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

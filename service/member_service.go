@@ -31,7 +31,7 @@ func (s *memberService) CreateMember(req *model.CreateMemberRequest) (*model.Mem
 		Email:     req.Email,
 		Role:      req.Role,
 		CreatedAt: time.Now().UTC(),
-		UpdatedAt: time.Now().UTC(),
+		// UpdatedAt stays nil until the member is first updated
 	}
 	if err := s.repo.Create(member); err != nil {
 		return nil, err
@@ -61,7 +61,8 @@ func (s *memberService) UpdateMember(id string, req *model.UpdateMemberRequest) 
 	if req.Role != "" {
 		member.Role = req.Role
 	}
-	member.UpdatedAt = time.Now().UTC()
+	now := time.Now().UTC()
+	member.UpdatedAt = &now
 	if err := s.repo.Update(member); err != nil {
 		return nil, err
 	}

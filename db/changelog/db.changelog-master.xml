@@ -6,5 +6,6 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
 
     <include file="changes/001-create-members-table.xml" relativeToChangelogFile="true"/>
+    <include file="changes/002-insert-member-vicky.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>
