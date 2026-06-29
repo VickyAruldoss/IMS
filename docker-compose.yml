@@ -17,7 +17,7 @@ services:
       retries: 5
 
   liquibase:
-    image: liquibase/liquibase
+    image: liquibase/liquibase:4.31-alpine
     container_name: ims-liquibase
     depends_on:
       postgres:
