@@ -3,6 +3,14 @@ CMD         := .
 BIN         := ./$(APP)
 SWAG        := swag
 
+# Load environment variables from .env (if present) and export them to recipes
+-include .env
+export
+
+# Fallback defaults if .env is missing
+DB_USER     ?= ims_user
+DB_NAME     ?= ims_db
+
 .PHONY: all build run test clean tidy lint swagger db-start db-stop migrate help
 
 all: tidy swagger build
@@ -39,7 +47,7 @@ clean:
 db-start:
 	docker-compose up -d postgres
 	@echo "Waiting for PostgreSQL to be ready..."
-	@until docker exec ims-postgres pg_isready -U $(DB_USER) -d ims_db > /dev/null 2>&1; do sleep 1; done
+	@until docker exec ims-postgres pg_isready -U $(DB_USER) -d $(DB_NAME) > /dev/null 2>&1; do sleep 1; done
 	@echo "PostgreSQL is ready."
 
 ## db-stop: stop and remove PostgreSQL container

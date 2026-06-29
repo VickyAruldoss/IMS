@@ -1,2 +1,5 @@
 # Binary
 ims
+
+# Local environment variables
+.env
